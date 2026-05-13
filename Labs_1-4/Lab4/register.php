@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $passwordConfirm = $_POST['password_confirm'] ?? '';
 
-    if ($username === '' || mb_strlen($username) < 3 || mb_strlen($username) > 50) {
+    if ($username === '' || strlen($username) < 3 || strlen($username) > 50) {
         $errors[] = 'Ім’я користувача повинно містити від 3 до 50 символів.';
     }
 
@@ -22,11 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Ім’я користувача може містити тільки латинські літери, цифри та символ підкреслення.';
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 100) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
         $errors[] = 'Введіть коректну електронну пошту довжиною до 100 символів.';
     }
 
-    if (mb_strlen($password) < 6) {
+    if (strlen($password) < 6) {
         $errors[] = 'Пароль повинен містити щонайменше 6 символів.';
     }
 

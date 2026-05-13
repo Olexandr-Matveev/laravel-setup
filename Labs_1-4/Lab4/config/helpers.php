@@ -46,11 +46,16 @@ function createPasswordHash(string $password): string
 
 function verifyPasswordForLab(string $password, string $storedHash): bool
 {
-    // password_verify() не перевіряє MD5-хеші. Тому підтримано два варіанти:
-    // 1) сучасний password_hash(); 2) md5(), який прямо вказаний у завданні.
-    if (password_get_info($storedHash)['algo'] !== 0) {
+    // За вимогою лабораторної пароль зберігається через md5().
+    // Додатково залишено підтримку password_hash(), якщо такий хеш колись буде в базі.
+    if (hash_equals($storedHash, md5($password))) {
+        return true;
+    }
+
+    $info = password_get_info($storedHash);
+    if (!empty($info['algo'])) {
         return password_verify($password, $storedHash);
     }
 
-    return hash_equals($storedHash, md5($password));
+    return false;
 }
